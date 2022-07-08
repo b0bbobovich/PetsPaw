@@ -1,0 +1,64 @@
+.sidebar {
+    width: 50%;
+    background: #E5E5E5;
+}
+
+.sidebar_links {
+    position: absolute;
+    left: 139px;
+    top: 343px;
+    display: flex;
+    list-style-type: none;
+}
+
+.btn_top {
+    width: 138px;
+    height: 198px;
+    left: 139px;
+    top: 343px;
+    border: 4px solid rgba(255, 255, 255, 0.6);
+    border-radius: 20px;
+}
+
+.sidebar_link:nth-child(1) .btn_top {
+    background: #B4B7FF;
+    margin-right: 10px;
+}
+
+.sidebar_link:nth-child(2) .btn_top{
+    background: #97EAB9;
+    margin-right: 10px;
+}
+
+.sidebar_link:nth-child(3) .btn_top{
+    background: #FFD280;
+}
+
+.sidebar_link:nth-child(1) .sidebar-link-image {
+    margin-top: 32px;
+    margin-right: 19px;
+    margin-bottom: 36.53px;
+    margin-left: 19px;
+}
+
+.sidebar_link:nth-child(2) .sidebar-link-image {
+    margin-top: 17px;
+    margin-right: 11px;
+    margin-bottom: 18px;
+    margin-left: 10px;
+}
+
+.sidebar_link:nth-child(3) .sidebar-link-image {
+    margin-top: 4px;
+    margin-right: 13px;
+    margin-bottom: 2px;
+    margin-left: 13px;
+}
+
+.label {
+    background: #FFFFFF;
+    border-radius: 10px;
+    margin-top: 10px;
+}
+
+
