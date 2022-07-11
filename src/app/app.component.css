@@ -1,0 +1,21 @@
+.app {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    grid-template-areas: 
+    "sidebar_menu content";
+    
+}
+
+.sidebar_menu {
+    grid-area: sidebar_menu;
+    position: fixed;
+    padding-top: 38px;
+    padding-left: 121px;
+}
+
+.content {
+    grid-area: content;
+
+}
+

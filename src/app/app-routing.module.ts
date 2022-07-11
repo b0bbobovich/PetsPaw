@@ -10,7 +10,7 @@ const routes: Routes = [
   {
     path: 'voting', component: VotingComponent
   },
-
+  
   {
     path: 'breeds', component: BreedsComponent
   },
