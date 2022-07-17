@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { VotingComponent } from './voting.component';
+import { SharedModule } from '../../components/shared/shared.module';
 
+import { VotingRoutingModule } from './voting-routing.module';
+import { VotingComponent } from './voting.component';
 
 
 @NgModule({
@@ -9,7 +11,9 @@ import { VotingComponent } from './voting.component';
     VotingComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    VotingRoutingModule,
+    SharedModule
   ]
 })
 export class VotingModule { }

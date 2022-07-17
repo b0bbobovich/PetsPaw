@@ -1,7 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BreedsComponent } from './breeds.component';
+import { SharedModule } from '../../components/shared/shared.module';
 
+import { BreedsRoutingModule } from './breeds-routing.module';
+import { BreedsComponent } from './breeds.component';
 
 
 @NgModule({
@@ -9,7 +11,9 @@ import { BreedsComponent } from './breeds.component';
     BreedsComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    BreedsRoutingModule,
+    SharedModule
   ]
 })
 export class BreedsModule { }
