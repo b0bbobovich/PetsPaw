@@ -1,15 +1,13 @@
 .search_sect {
-    width: 100vh;
-    height: auto;
     margin-top: 10px;
     background: #FFFFFF;
     border-radius: 20px;
-    padding: 20px;   
+    padding: 20px;
+    
 }
 
 .tabs_bar {
     display:flex;
-    flex-direction:row;
 }
 
 .page_name_cont {
@@ -47,6 +45,10 @@
 .progress_spinner_cont {
     height: auto;
     padding: 45%;
+}
+
+.grid_parent {
+    overflow: hidden;
 }
 
 

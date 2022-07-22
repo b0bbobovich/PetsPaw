@@ -8,21 +8,23 @@
     </div>
     <ng-template [ngIf]="searchWord" [ngIfElse]="alt_headline">
         <p class="search_headline">Search result for: <b style="color: #1D1D1D">{{searchWord}}</b></p>
-        
-          <ng-container class="breeds_search_res" *ngIf="loadedData.length > 0;  else downloader">
-            <div class="grid_container">
-              <ng-container *ngFor="let data of loadedData; index as i">
-                <app-cat-breed [breeds]="data" class="{{ get_grid_class(i) }}"></app-cat-breed>
-              </ng-container>
+
+          <ng-container *ngIf="loadedData.length > 0;  else downloader">
+            <div class="grid_parent">
+              <div class="grid_container">
+                <ng-container *ngFor="let data of loadedData; index as i">
+                  <app-cat-breed [breeds]="data" class="{{ get_grid_class(i) }}"></app-cat-breed>
+                </ng-container>
+              </div>
             </div>
           </ng-container>
+
     </ng-template>
 
     <ng-template #downloader>
       <div class="progress_spinner_cont">
         <app-progress-spinner></app-progress-spinner>
       </div>
-      
     </ng-template>
     
 

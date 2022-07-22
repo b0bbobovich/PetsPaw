@@ -1,13 +1,19 @@
 
-.home_container {
-    margin-bottom: auto;
-    width: 100vh;                              
-    height: 100vh;
+ .home_container {
     border-radius: 20px;
-    display: flex;
-    background: url(/assets/images/girl-and-pet\ 1.png);
-    background-size: 100vh;
+    background-size: 100% 100%;
     background-color: #FBE0DC;
-    position: fixed;
+    
+       
+} 
+
+.home_image {
+    margin-left: -40px;
+    margin-top: -30px;
+    height: calc(100% + 70px);
+    width: calc(100% + 70px);
+    border-radius: 20px;
+    position: static;
+    
 }
 

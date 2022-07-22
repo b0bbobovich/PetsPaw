@@ -9,10 +9,12 @@ import { SharedModule } from './components/shared/shared.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 
+
 @NgModule({
   declarations: [
     AppComponent
   ],
+  
   imports: [
     BrowserModule,
     AppRoutingModule,
