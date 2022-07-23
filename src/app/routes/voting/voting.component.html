@@ -1,2 +1,11 @@
 <app-topbar></app-topbar>
-<p>voting works!</p>
+<section class="vote_sect">
+    <div class="tabs_bar">
+        <app-back-nav-btn></app-back-nav-btn>
+        <div class="page_name_cont">
+          <p class="page_name">VOTING</p>
+        </div>
+    </div>
+    <div class="vote_img_cont">
+        <app-cat-breed [breeds]="getVoteImg()" class="cat_img"></app-cat-breed>
+    </div>

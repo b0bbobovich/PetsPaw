@@ -1,0 +1,40 @@
+.vote_sect {
+    height: auto;
+    margin-top: 10px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.tabs_bar {
+    display:flex;
+}
+
+.page_name_cont {
+    width: 156px;
+    height: 40px;
+    background: #FF868E;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.page_name {
+    font-family: 'Jost';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    letter-spacing: 2px;
+    color: #FFFFFF;
+    margin: 5px 30px;
+}
+
+.vote_img_cont {
+    margin-top: 20px;
+    border-radius: 20px;
+    width: 100%;
+    height: 460px;
+    background-color: aquamarine;
+
+}

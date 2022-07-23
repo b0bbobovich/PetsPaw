@@ -26,8 +26,12 @@ export class ApiService {
     return this.http.get<Breeds[]>(`${environment.apiURL}/images/search?limit=20&has_breeds=true&breed_id=${breedId}`);
   }
 
-  public searchCats(): Observable<Breeds[]> {
-    return this.http.get<Breeds[]>(`${environment.apiURL}/images/search?limit=20&has_breeds=true}`);
+  public searchCatsImages(): Observable<Breeds[]> {
+    return this.http.get<Breeds[]>(`${environment.apiURL}/images/search?limit=20&has_breeds=true&format=json}`);
+  }
+
+  public searchVoteImage(): Observable<Breeds[]> {
+    return this.http.get<Breeds[]>(`${environment.apiURL}/images/search?limit=1&has_breeds=true&format=json}`);
   }
 
   public searchBreeds(): Observable<CatsBreeds[]> {
