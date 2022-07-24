@@ -17,12 +17,13 @@ export class SearchComponent implements OnInit {
 
   public breedId: string = ''
 
+  public isEmptyData: boolean = true
+
   constructor(private route: ActivatedRoute, private service: ApiService) {
       this.route.firstChild?.params.subscribe((res) => {
         this.searchWord = res["searchWord"];
         this.loadedData = [];
         this.search();
-        
     });
   }
 
@@ -35,11 +36,13 @@ export class SearchComponent implements OnInit {
       if (breed_res.length > 0) {
         this.breedId = breed_res[0].id;
       
-        console.log(this.breedId);
         this.service.searchBreedImages(this.breedId).subscribe((all_breeds_res) => {
           this.loadedData = all_breeds_res;
-          console.log(this.loadedData);
+          this.isEmptyData = false
         });
+      }
+      else {
+        this.isEmptyData = true
       }
     });
   }

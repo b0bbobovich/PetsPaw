@@ -1,2 +1,27 @@
 <app-topbar></app-topbar>
-<p>favourites works!</p>
+<section class="fav_sect">
+    <div class="tabs_bar">
+        <app-back-nav-btn></app-back-nav-btn>
+        <div class="page_name_cont">
+          <p class="page_name">FAVOURITES</p>
+        </div>
+    </div>
+    <ng-container *ngIf="loadedData.length > 0;  else noItems">
+        <div class="grid_parent">
+          <div class="grid_container">
+            <ng-container *ngFor="let data of loadedData; index as i">
+                <div class="cat_img_cont {{ get_grid_class(i) }}">
+                    <div class="hover_cont">
+                        <div class="cat_img_hover"></div>
+                    </div>
+                    
+                    <app-cat-breed [breeds]="data" class="cat_img"></app-cat-breed>
+                    
+                </div>
+            </ng-container>
+          </div>
+        </div>
+    </ng-container>
+    <ng-template #noItems>
+        <p class="no_items_headline">No search term found.</p>
+    </ng-template>

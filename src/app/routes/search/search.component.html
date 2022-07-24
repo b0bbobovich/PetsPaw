@@ -6,7 +6,8 @@
           <p class="page_name">SEARCH</p>
         </div>
     </div>
-    <ng-template [ngIf]="searchWord" [ngIfElse]="alt_headline">
+
+      <ng-template [ngIf]="searchWord" [ngIfElse]="alt_headline">
         <p class="search_headline">Search result for: <b style="color: #1D1D1D">{{searchWord}}</b></p>
 
           <ng-container *ngIf="loadedData.length > 0;  else downloader">
@@ -30,12 +31,13 @@
     </ng-template>
 
     <ng-template #downloader>
-      <div class="progress_spinner_cont">
-        <app-progress-spinner></app-progress-spinner>
-      </div>
+      <ng-container *ngIf="!isEmptyData; else alt_headline">
+        <div class="progress_spinner_cont">
+          <app-progress-spinner></app-progress-spinner>
+        </div>
+      </ng-container>
     </ng-template>
     
-
     <ng-template #alt_headline>
         <p class="search_headline">No search term found.</p>
     </ng-template>

@@ -6,6 +6,31 @@
           <p class="page_name">VOTING</p>
         </div>
     </div>
-    <div class="vote_img_cont">
-        <app-cat-breed [breeds]="getVoteImg()" class="cat_img"></app-cat-breed>
+    
+    <div class="vote_img_cont" *ngIf="loadedData.length > 0">
+        <ng-container *ngFor="let data of loadedData">
+            <app-cat-breed [breeds]="data"></app-cat-breed>
+        </ng-container>
+        <ul class="voting_btns">
+            <li class="like_cont">
+              <img class="like_btn" src='/assets/icons/like-30.svg' alt="likes_image">
+            </li>
+            <li class="fav_cont" ng-click="clickedFav()">
+                <img class="fav_btn" ng-click="clickedFav()" src='/assets/icons/fav-30.svg' alt="favourites_image">
+            </li>
+            <li class="dislike_cont">
+              <img class="dislike_btn" src='/assets/icons/dislike-30.svg' alt="dislikes_image">
+            </li>
+          </ul>
     </div>
+    <div class="logs">
+        <ng-container *ngIf="isNewAction">
+            <div class="new_log">
+                <div class="time_cont">
+                    <p class="time">{{loggedData.currentTime}}</p>
+                </div>
+                <p class="log_msg">Image ID: <b style="color: #1D1D1D;">{{loggedData.imageID}}</b> was {{loggedData.action}} to {{loggedData.place}}</p>
+            </div>
+        </ng-container> 
+    </div>
+    
