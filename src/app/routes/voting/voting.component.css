@@ -121,6 +121,8 @@
 
 .logs {
     margin-top: 50px;
+    width: 100%;
+    
 }
 
 .new_log {
@@ -143,7 +145,6 @@
 
 .time {
     width: max-content;
-
     color: #1D1D1D;
     font-family: 'Jost';
     font-style: normal;

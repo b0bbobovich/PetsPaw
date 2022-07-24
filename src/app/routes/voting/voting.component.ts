@@ -52,10 +52,21 @@ export class VotingComponent implements OnInit {
   });
   }
 
-  public clickedFav(): void {}
+  public clickedFav(): void {
+    if (this.isFavourite) {
+      this.loggedAction('removed', 'Favourites');
+      this.isFavourite = false;
+    }
+    else {
+      this.loggedAction('added', 'Favourites');
+      this.isFavourite = true;
+    }
+  }
+
+
 
   public loggedAction(action: string, page: string): void {
-    this.isNewAction = !this.isNewAction;
+    this.isNewAction = true;
 
     let time = new Date();
     let current_time = `${time.getHours()} : ${(time.getMinutes()<10?'0':'') + time.getMinutes()}`;
@@ -64,6 +75,11 @@ export class VotingComponent implements OnInit {
     this.loggedData['action'] = action;
     this.loggedData['place'] = page;
     this.loggedData['currentTime'] = current_time;
-   }
+
+    console.log(`New Action: ${page} ${action}`);
+    this.isNewAction = false;
+  }
+
+  
 
 }
