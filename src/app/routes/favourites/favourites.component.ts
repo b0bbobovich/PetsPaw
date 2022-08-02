@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Breeds } from '../../api/models/breeds.model';
-import { Favourites } from '../../api/models/favourites.model';
+import { Favourite } from '../../api/models/favourite.model';
 import { ApiService } from '../../api/services/api.service';
 import { PersistanceService } from '../../api/services/persister.service';
+import { LoggedData } from '../voting/voting.interface';
 
 @Component({
   selector: 'app-favourites',
@@ -13,27 +13,56 @@ export class FavouritesComponent implements OnInit {
 
   public subID: string = '';
 
-  public loadedData: Breeds[] = [];
+  public loadedData: Favourite[] = [];
+
+  public imageID: string = '';
+
+  public logs: LoggedData[] = [];
 
   constructor(private service: ApiService, private persister: PersistanceService) {
     this.subID = this.persister.get('sub_id');
-    this.searchFavImgs();
+    this.getFavImgs();
   }
 
   ngOnInit(): void {}
 
-  public searchFavImgs(): void {
-    this.service.getAllFavImgs(this.subID).subscribe((favImgs) => {
-      let favData = favImgs.filter((el: Favourites) => {el.sub_id == this.subID});
-      for (let favCat of favData) {
-        this.service.searchCatById(favCat.image_id).subscribe((cat_data) => {
-          this.loadedData.push(cat_data[0]);
-          console.log(cat_data)
-          console.log(this.loadedData)
-        });
+  public getFavImgs(): void {
+    this.service.getFavourites(this.subID).subscribe((favImgs) => {
+      this.loadedData = favImgs;
+    });
+  };
+
+  public unfavouriteImage(imageData: Favourite): void {
+    this.imageID = imageData.image_id
+    let favourite_id = imageData.id;
+    this.service.delFavourite(favourite_id).subscribe((res) => {
+      if (res['message'] == 'SUCCESS') {
+        this.loggedAction('removed from', 'Favourites');
+        this.getFavImgs();
       }
     });
   }
+
+  public loggedAction(action: string, page: string): void {    
+    let log: LoggedData = {
+      imageID: '',
+      action: '',
+      place: '',
+      currentTime: '',
+    };
+
+    let time = new Date();
+    let current_time = `${time.getHours()} : ${(time.getMinutes() < 10 ? '0' : '') + time.getMinutes()}`;
+    
+    log['imageID'] = this.imageID;
+    log['action'] = action;
+    log['place'] = page;
+    log['currentTime'] = current_time;
+
+    this.logs.push(log);
+
+  };
+
 
   // toDo move get_grid_class to grid-container component and then import where it needed to
   public get_grid_class(index: number): string {
@@ -46,6 +75,4 @@ export class FavouritesComponent implements OnInit {
     let clamped_index = index % pattern.length;
     return pattern[clamped_index];
   }
-
-
 }

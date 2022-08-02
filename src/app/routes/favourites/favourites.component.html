@@ -11,11 +11,12 @@
           <div class="grid_container">
             <ng-container *ngFor="let data of loadedData; index as i">
                 <div class="cat_img_cont {{ get_grid_class(i) }}">
-                    <div class="hover_cont">
-                        <div class="cat_img_hover"></div>
+                    <div class="cat_img_hover"></div>
+                    <div class="unfav_btn_cont" (click)="unfavouriteImage(data)">
+                        <img class="unfav_btn"  src='./assets/icons/fav-filled-white-30.svg' alt="search_image">
                     </div>
                     
-                    <app-cat-breed [breeds]="data" class="cat_img"></app-cat-breed>
+                    <app-cat-breed [url]="data.image.url" class="cat_img"></app-cat-breed>
                     
                 </div>
             </ng-container>
@@ -23,5 +24,18 @@
         </div>
     </ng-container>
     <ng-template #noItems>
-        <p class="no_items_headline">No search term found.</p>
+        <div class="no_items_headline">
+            <p class="no_items_headline_text">No item found</p>
+        </div>
     </ng-template>
+
+    <div class="logs">
+        <ng-container *ngFor='let log of logs'>
+            <div class="new_log">
+                <div class="time_cont">
+                    <p class="time">{{log.currentTime}}</p>
+                </div>
+                <p class="log_msg">Image ID: <b style="color: #1D1D1D;">{{log.imageID}}</b> was {{log.action}} {{log.place}}</p>
+            </div>
+        </ng-container> 
+    </div>

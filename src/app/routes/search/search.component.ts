@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Breed } from '../../api/models/breed.model';
 import { Breeds } from '../../api/models/breeds.model';
 import { ApiService } from '../../api/services/api.service';
 
@@ -28,16 +29,15 @@ export class SearchComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
   }
 
   public search(): void {
-    this.service.searchBreedByName(this.searchWord).subscribe((breed_res) => {
-      if (breed_res.length > 0) {
-        this.breedId = breed_res[0].id;
+    this.service.searchBreedByName(this.searchWord).subscribe((breedByName) => {
+      if (breedByName.length > 0) {
+        this.breedId = breedByName[0].id;
       
-        this.service.searchBreedImages(this.breedId).subscribe((all_breeds_res) => {
-          this.loadedData = all_breeds_res;
+        this.service.searchByBreed(this.breedId).subscribe((breedRes) => {
+          this.loadedData = breedRes;
           this.isEmptyData = false
         });
       }

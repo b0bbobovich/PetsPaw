@@ -1,4 +1,4 @@
-export class CatsBreeds {
+export class Category {
     id!: string;
     name!: string;
 }

@@ -1,15 +1,9 @@
+import { Breed } from "./breed.model";
+import { Category } from "./category.model";
+
 export class Breeds {
-    breeds!: [
-        {
-            id: string;
-            name: string;
-            temperament: string;
-            life_span: string;
-            origin: string;
-            weight_imperial: string;
-        }
-    ];
-    categories!: [];
+    breeds!: [Breed];
+    categories!: [Category];
     id!: string;
     url!: string;
 }

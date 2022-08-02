@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Breeds } from '../../../api/models/breeds.model';
 
 @Component({
   selector: 'app-cat-breed',
@@ -8,7 +7,8 @@ import { Breeds } from '../../../api/models/breeds.model';
 })
 export class CatBreedComponent implements OnInit {
 
-  @Input() breeds!: Breeds
+  @Input() url!: string;
+
 
   constructor() { }
 

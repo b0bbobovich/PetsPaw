@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Breeds } from '../../api/models/breeds.model';
+import { Favourite } from '../../api/models/favourite.model';
 import { ApiService } from '../../api/services/api.service';
 import { PersistanceService } from '../../api/services/persister.service';
 import { LoggedData } from './voting.interface';
@@ -11,75 +12,104 @@ import { LoggedData } from './voting.interface';
 })
 export class VotingComponent implements OnInit {
 
-  public isNextImg: boolean = true;
-
   public loadedData: Breeds[] = [];
 
   public imageID: string = '';
 
   public subID: string = '';
 
-  public isNewAction: boolean = false;
-
   public isFavourite: boolean = false;
+  
+  public favouriteID: string = '';
 
-  public loggedData: LoggedData = {
-    imageID: '',
-    action: '',
-    place: '',
-    currentTime: '',
-  }
+  public logs: LoggedData[] = [];
 
-  public fav_class: string = '';
-  public fav_cont_class: string = '';
-
+  
   constructor(private service: ApiService, private persister: PersistanceService) {
     this.createSubID();
     this.searchImage();
-  }
+  };
 
   ngOnInit(): void { }
   
   public createSubID(): void {
-    let randomNum = Math.floor(Math.random() * 10000) + 1;
-    this.persister.set('sub_id', randomNum);
-  }
+    // sub_id can be any value. Its static and didn`t change with new session
+    this.persister.set('sub_id', 'id369432');
+    this.subID = this.persister.get('sub_id');
+  };
 
   public searchImage(): void {
-  this.service.searchVoteImage().subscribe((catData) => {
-    this.loadedData = catData;
-    this.imageID = this.loadedData[0].id;
-  });
-  }
+    this.service.searchVotingImage().subscribe((catData) => {
+      this.loadedData = catData;
+      this.imageID = this.loadedData[0].id;
+    });
+  };
 
-  public clickedFav(): void {
+  public onFavBtnClicked(): void {
+    this.checkFavouriteState();
     if (this.isFavourite) {
-      this.loggedAction('removed', 'Favourites');
-      this.isFavourite = false;
+      this.service.delFavourite(this.favouriteID).subscribe((res) => {
+        if (res['message'] == 'SUCCESS') {
+          this.loggedAction('removed from', 'Favourites');
+          this.isFavourite = false;
+        }
+      });
     }
     else {
-      this.loggedAction('added', 'Favourites');
-      this.isFavourite = true;
-    }
-  }
+      this.service.postFavourite(this.imageID, this.subID).subscribe((res) => {
+        if (res['message'] === 'SUCCESS') {
+          this.loggedAction('added to', 'Favourites');
+          this.isFavourite = true;
+          this.favouriteID = res["id"];
+        }
+      });
+    };
+  };
 
+  public checkFavouriteState(): void {
+    this.service.getFavourites(this.subID).subscribe((res) => {
+      let favouritesImgID = res.map((el: Favourite) => el.image_id);
+      if (favouritesImgID.includes(this.imageID)) {
+        this.isFavourite = true;
+      }
+      else {
+        this.isFavourite = false;
+      };
+    })
+  };
 
+  public onVoteBtnClicked(value: number) {
+    this.service.postVote(this.imageID, this.subID, value).subscribe((res) => {
+      if (res['message'] === 'SUCCESS') {
+        if (value === 1) {
+          this.loggedAction('added to', 'Likes');
+        }
+        else {
+          this.loggedAction('added to', 'Dislikes');
+        }
+        this.loadedData = []
+        this.searchImage()
+      }
+    });
+  };
 
-  public loggedAction(action: string, page: string): void {
-    this.isNewAction = true;
+  public loggedAction(action: string, page: string): void {    
+    let log: LoggedData = {
+      imageID: '',
+      action: '',
+      place: '',
+      currentTime: '',
+    };
 
     let time = new Date();
-    let current_time = `${time.getHours()} : ${(time.getMinutes()<10?'0':'') + time.getMinutes()}`;
+    let current_time = `${time.getHours()} : ${(time.getMinutes() < 10 ? '0' : '') + time.getMinutes()}`;
     
-    this.loggedData['imageID'] = this.imageID;
-    this.loggedData['action'] = action;
-    this.loggedData['place'] = page;
-    this.loggedData['currentTime'] = current_time;
-
+    log['imageID'] = this.imageID;
+    log['action'] = action;
+    log['place'] = page;
+    log['currentTime'] = current_time;
     console.log(`New Action: ${page} ${action}`);
-    this.isNewAction = false;
-  }
 
-  
-
+    this.logs.push(log);
+  };
 }

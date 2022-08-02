@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from '../../api/services/api.service';
 import { Breeds } from '../../api/models/breeds.model';
-import { CatsBreeds } from '../../api/models/cats-breeds.model';
+import { Category } from '../../api/models/category.model';
+
 
 
 @Component({
@@ -16,7 +17,7 @@ export class BreedsComponent implements OnInit {
 
   public showedData: Breeds[] = [];
 
-  public categories: CatsBreeds[] = [];
+  public categories: Category[] = [];
 
   public currentCategory: string = 'All breeds'
 
@@ -42,20 +43,19 @@ export class BreedsComponent implements OnInit {
       this.loadedData = [];
     }
     if (this.currentCategory == 'All breeds') {
-      this.service.searchCatsImages().subscribe((cats_data) => {
-        this.loadedData = cats_data;
+      this.service.searchAllPublic().subscribe((catsData) => {
+        this.loadedData = catsData;
         this.showData();
       });
     }
     else {
-      let category = this.categories.filter((el: CatsBreeds) => (el.name == this.currentCategory));
-      let categoryID = category[0].id
-      this.service.searchBreedImages(categoryID).subscribe((breed_data) => {
+      let category = this.categories.filter((el: Category) => (el.name == this.currentCategory));
+      let breedID = category[0].id;
+      this.service.searchByBreed(breedID).subscribe((breed_data) => {
         this.loadedData = breed_data;
         this.showData();
       });
     }
-    
   }
 
   public showData(): void {
@@ -63,12 +63,12 @@ export class BreedsComponent implements OnInit {
   }
 
   public searchCategories(): void {
-    this.service.searchBreeds().subscribe((categories) => {
-      this.categories = categories;
+    this.service.searchCategories().subscribe((categoriesData) => {
+      this.categories = categoriesData;
     });
   }
 
-  public chooseCategory(category: CatsBreeds | string): void {
+  public chooseCategory(category: Category | string): void {
     if (typeof category == 'string') {
       this.currentCategory = 'All breeds';
     }

@@ -1,0 +1,76 @@
+.likes_sect {
+    height: 100%;
+    margin-top: 10px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.tabs_bar {
+    display:flex;
+}
+
+.page_name_cont {
+    width: auto;
+    height: 40px;
+    background: #FF868E;
+    border-radius: 10px;
+    margin-left: 10px;
+}
+
+.page_name {
+    font-family: 'Jost';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 30px;
+    text-align: center;
+    letter-spacing: 2px;
+    color: #FFFFFF;
+    margin: 5px 30px;
+}
+
+.grid_parent {
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+.cat_img_cont {
+    position: relative;
+}
+
+.cat_img_hover {
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 134, 142, 0.6);
+    opacity: 0.6;
+    display: none;
+    position: absolute;
+    border-radius: 20px;
+}
+
+.cat_img_cont:hover .cat_img_hover {
+    display: block;
+}
+
+.no_items_headline {
+    margin-top: 20px;
+    background: #F8F8F7;
+    border-radius: 10px;
+    width: 100%;
+    height: 60px;
+}
+
+.no_items_headline_text {
+    font-family: 'Jost';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    color: #8C8C8C;
+    width: 100%;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    padding-left: 20px;
+    margin-bottom: 0;
+}

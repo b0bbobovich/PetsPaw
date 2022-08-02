@@ -3,5 +3,4 @@ export class LoggedData {
     action!: string;
     place!: string;
     currentTime!: string;
-
 }
