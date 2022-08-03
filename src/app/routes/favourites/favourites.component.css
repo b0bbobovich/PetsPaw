@@ -98,6 +98,25 @@
     filter: brightness(0) saturate(100%) invert(62%) sepia(95%) saturate(1161%) hue-rotate(306deg) brightness(104%) contrast(100%);
 }
 
+.unfav_btn_hover {
+    height: 25px;
+    width: 25px;
+    margin: 7.5px;
+    display: none;
+}
+
+.unfav_btn_cont:hover {
+    background: #FF868E;
+}
+
+.unfav_btn_cont:hover .unfav_btn {
+    display: none;
+}
+
+.unfav_btn_cont:hover .unfav_btn_hover {
+    display: block;
+}
+
 .logs {
     margin-top: 50px;
     width: 100%;

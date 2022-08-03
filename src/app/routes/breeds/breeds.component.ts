@@ -44,7 +44,7 @@ export class BreedsComponent implements OnInit {
     }
     if (this.currentCategory == 'All breeds') {
       this.service.searchAllPublic().subscribe((catsData) => {
-        this.loadedData = catsData;
+        this.loadedData = catsData.filter((el: Breeds) => typeof(el) !== 'undefined');
         this.showData();
       });
     }

@@ -17,12 +17,12 @@ export class VotingComponent implements OnInit {
   public imageID: string = '';
 
   public subID: string = '';
-
-  public isFavourite: boolean = false;
   
   public favouriteID: string = '';
 
   public logs: LoggedData[] = [];
+
+  public isFavourite: boolean = false;
 
   
   constructor(private service: ApiService, private persister: PersistanceService) {
@@ -46,12 +46,13 @@ export class VotingComponent implements OnInit {
   };
 
   public onFavBtnClicked(): void {
-    this.checkFavouriteState();
+    this.checkFavouriteState()
     if (this.isFavourite) {
       this.service.delFavourite(this.favouriteID).subscribe((res) => {
         if (res['message'] == 'SUCCESS') {
           this.loggedAction('removed from', 'Favourites');
           this.isFavourite = false;
+          console.log(this.isFavourite)
         }
       });
     }
@@ -59,23 +60,19 @@ export class VotingComponent implements OnInit {
       this.service.postFavourite(this.imageID, this.subID).subscribe((res) => {
         if (res['message'] === 'SUCCESS') {
           this.loggedAction('added to', 'Favourites');
-          this.isFavourite = true;
           this.favouriteID = res["id"];
+          this.isFavourite = true;
+          console.log(this.isFavourite)
         }
       });
     };
   };
-
+  
   public checkFavouriteState(): void {
     this.service.getFavourites(this.subID).subscribe((res) => {
       let favouritesImgID = res.map((el: Favourite) => el.image_id);
-      if (favouritesImgID.includes(this.imageID)) {
-        this.isFavourite = true;
-      }
-      else {
-        this.isFavourite = false;
-      };
-    })
+      this.isFavourite = favouritesImgID.includes(this.imageID);
+    });
   };
 
   public onVoteBtnClicked(value: number) {
@@ -108,7 +105,7 @@ export class VotingComponent implements OnInit {
     log['action'] = action;
     log['place'] = page;
     log['currentTime'] = current_time;
-    console.log(`New Action: ${page} ${action}`);
+    console.log(`New Action: ${action} ${page}`);
 
     this.logs.push(log);
   };
