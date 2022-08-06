@@ -270,8 +270,13 @@
     bottom: 10px;
     left: 10px;
     display: none;
-    
+    border: 2px solid transparent;
 }
+
+.breed_name:hover {
+    border: 2px solid #FF868E;
+}
+
 
 .cat_img_cont:hover .breed_name {
     display: block;

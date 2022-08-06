@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ElementRef, ViewChild } from '@angular/core';
 import { ApiService } from '../../api/services/api.service';
+import { ShareRouteDataService } from '../../api/services/share-route-data.service';
 import { Breeds } from '../../api/models/breeds.model';
 import { Category } from '../../api/models/category.model';
+
 
 
 
@@ -26,7 +28,7 @@ export class BreedsComponent implements OnInit {
   public isLimitDropdownOpen: boolean = false;
   public isCategoriesDropdownOpen: boolean = false;
 
-  constructor(private service: ApiService) {
+  constructor(private service: ApiService, private shareDataService: ShareRouteDataService) {
     this.searchData();
     this.searchCategories();
   }
@@ -83,6 +85,10 @@ export class BreedsComponent implements OnInit {
     this.imgsLimit = limit;
     this.openCloseDropbars('limitDropbar')
     this.showData();
+  }
+  // share specific cat data to 'Info' route
+  public shareData(catData: Breeds) {
+    this.shareDataService.data.push(catData);
   }
 
   public openCloseDropbars(dropbar: string): void {

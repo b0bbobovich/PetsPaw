@@ -1,5 +1,5 @@
 import { environment } from './../../../environments/environment';
-import { HttpInterceptor, HttpEvent, HttpResponse, HttpRequest, HttpHandler } from '@angular/common/http';
+import { HttpInterceptor, HttpEvent, HttpRequest, HttpHandler } from '@angular/common/http';
 import { Injectable } from "@angular/core"
 import { Observable } from 'rxjs';
 
@@ -16,5 +16,6 @@ export class ApiInterceptor implements HttpInterceptor {
     });
 
     return next.handle(authReq);
+    
   }
 }

@@ -10,7 +10,8 @@ const routes: Routes = [
   { path: 'search', loadChildren: () => import('./routes/search/search.module').then(m => m.SearchModule) },
   { path: 'likes', loadChildren: () => import('./routes/likes/likes.module').then(m => m.LikesModule) },
   { path: 'favourites', loadChildren: () => import('./routes/favourites/favourites.module').then(m => m.FavouritesModule) },
-  { path: 'dislikes', loadChildren: () => import('./routes/dislikes/dislikes.module').then(m => m.DislikesModule) }
+  { path: 'dislikes', loadChildren: () => import('./routes/dislikes/dislikes.module').then(m => m.DislikesModule) },
+  { path: 'info', loadChildren: () => import('./routes/info/info.module').then(m => m.InfoModule) }
 ];
 
 @NgModule({

@@ -51,7 +51,7 @@
           <div class="grid_container">
             <ng-container *ngFor="let data of showedData; index as i">
                 <div class="cat_img_cont {{ get_grid_class(i) }}">
-                    <div class="hover_cont">
+                    <div class="hover_cont" routerLink="/info" (click)="shareData(data)">
                         <div class="cat_img_hover"></div>
                         <div class="breed_name">
                             <p class="breed_text">{{data.breeds[0].name}}</p>

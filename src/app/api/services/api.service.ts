@@ -11,6 +11,8 @@ import { Favourite } from '../models/favourite.model'
 import { Vote } from '../models/vote.model'
 
 
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -36,7 +38,7 @@ export class ApiService {
   }
 
   public searchCategories(): Observable<Category[]> {
-    return this.http.get<Category[]>(`${environment.apiURL}/breeds?page=0`); 
+    return this.http.get<Category[]>(`${environment.apiURL}/breeds`); 
   }
 
   public searchVotingImage(): Observable<Breeds[]> {
@@ -66,7 +68,5 @@ export class ApiService {
   public delVote(vote_id: string): Observable<any> {
     return this.http.delete(`${environment.apiURL}/votes/${vote_id}`);
   }
-
-
   
 }
