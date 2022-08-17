@@ -100,18 +100,19 @@
 
 :host ::ng-deep .igx-carousel-indicators--bottom {
     position: absolute;
-    display: flex;
     justify-content: space-around;
-    align-items: center;
     width: 90px;
     height: 30px;
     background: #FFFFFF;
     border-radius: 20px;
     transform: rotate(0.09deg);
-    bottom: -15px;
+    bottom: -30px;
     left: 50%;
     transform: translateX(-50%);
-    z-index: 1;
+}
+
+:host ::ng-deep .igx-carousel-indicators__indicator {
+    margin: 0;
 }
 
 :host ::ng-deep .igx-nav-dot {
@@ -120,45 +121,48 @@
     width: 10px;
     height: 10px;
     border-radius: 10px;
+    box-sizing: content-box;
 }
 
 :host ::ng-deep .igx-nav-dot--active {
     background: #FF868E;
 }
 
-:host ::ng-deep .igx-icon {
-    margin-top: 5px;
-    margin-left: 5px;
+:host ::ng-deep .igx-nav-dot--active::after {
+    background: #FF868E;
+}
+
+
+:host ::ng-deep .igx-nav-arrow {
+    display: flex;
+    width: 35px;
+    height: 35px;
+    background: white;
+    border-radius: 10px;
 }
 
 :host ::ng-deep .igx-carousel__arrow--prev {
-    width: 35px;
-    height: 35px;
+    margin: 0;
     position: absolute;
     left: 10px;
     top: 50%;
     transform: translateY(-50%);
-    background-color: white;
-    border-radius: 10px;
 }
 
-:host ::ng-deep .igx-carousel__arrow--prev:hover {
-    background-color: #FBE0DC;
+:host ::ng-deep .igx-carousel__arrow--prev:hover .igx-nav-arrow {
+    background: #FBE0DC;
 }
 
 :host ::ng-deep .igx-carousel__arrow--next {
-    width: 35px;
-    height: 35px;
+    margin: 0;
     position: absolute;
     right: 10px;
     top: 50%;
     transform: translateY(-50%);
-    background-color: white;
-    border-radius: 10px;
 }
 
-:host ::ng-deep .igx-carousel__arrow--next:hover {
-    background-color: #FBE0DC;
+:host ::ng-deep .igx-carousel__arrow--next:hover .igx-nav-arrow {
+    background: #FBE0DC;
 }
 
 
@@ -210,9 +214,7 @@
 }
 
 .breed_info {
-    margin-top: 40px;
-    margin-left: 80px;
-    margin-right: 80px;
+    margin: 40px 80px;
     display: flex;
     justify-content: space-between;
 }
@@ -225,6 +227,8 @@
     font-size: 16px;
     line-height: 23px;
     color: #1D1D1D;
+    margin-bottom: 10px;
+    margin-top: 0;
 }
 
 .info_value {
@@ -235,6 +239,7 @@
     font-size: 16px;
     line-height: 23px;
     color: #8C8C8C;
+    margin: 0;
 }
 
 .no_items_headline {

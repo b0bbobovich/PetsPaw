@@ -17,7 +17,7 @@
               <img class="like_btn" src='./assets/icons/like-30.svg' alt="likes_image">
             </li>
 
-            <li class="fav_cont" (click)="onFavBtnClicked()">
+            <li class="fav_cont" (click)="isBtnReady && onFavBtnClicked()">
                 <ng-container *ngIf="isFavourite; else defaultImg">
                     <img class="fav_btn_active" src='./assets/icons/fav-filled-white-30.svg' alt="favourites_image">
                 </ng-container>

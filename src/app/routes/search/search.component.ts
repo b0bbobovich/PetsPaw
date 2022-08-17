@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Breed } from '../../api/models/breed.model';
 import { Breeds } from '../../api/models/breeds.model';
 import { ApiService } from '../../api/services/api.service';
 
@@ -18,12 +17,11 @@ export class SearchComponent implements OnInit {
 
   public breedId: string = ''
 
-  public isEmptyData: boolean = true
+  public isEmptyData: boolean = true;
 
   constructor(private route: ActivatedRoute, private service: ApiService) {
       this.route.firstChild?.params.subscribe((res) => {
         this.searchWord = res["searchWord"];
-        this.loadedData = [];
         this.search();
     });
   }
@@ -33,20 +31,27 @@ export class SearchComponent implements OnInit {
 
   public search(): void {
 
+    if (this.loadedData) {
+      this.loadedData = [];
+    }
+
     // TODO observables pipe
     this.service.searchBreedByName(this.searchWord).subscribe((breedByName) => {
       if (breedByName.length > 0) {
         this.breedId = breedByName[0].id;
+        this.isEmptyData = false;
         
         this.service.searchByBreed(this.breedId).subscribe((breedRes) => {
+          console.log(breedRes)
           this.loadedData = breedRes;
-          this.isEmptyData = false
+          
         });
       }
       else {
-        this.isEmptyData = true
+        this.isEmptyData = true;
       }
     });
+    console.log(this.loadedData);
   }
 
 

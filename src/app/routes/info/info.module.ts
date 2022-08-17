@@ -21,6 +21,7 @@ import { EVENT_MANAGER_PLUGINS, HammerGestureConfig, HAMMER_GESTURE_CONFIG, HAMM
     SharedModule,
     IgxCarouselModule,
     
+    
   ],
   providers: [
     {

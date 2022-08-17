@@ -23,7 +23,7 @@ export class BreedsComponent implements OnInit {
 
   public currentCategory: string = 'All breeds'
 
-  public imgsLimit: number = 10;
+  public imgsLimit: number = 20;
 
   public isLimitDropdownOpen: boolean = false;
   public isCategoriesDropdownOpen: boolean = false;
@@ -61,6 +61,7 @@ export class BreedsComponent implements OnInit {
   }
 
   public showData(): void {
+    console.log(this.loadedData)
     this.showedData = this.loadedData.slice(0, this.imgsLimit);
   }
 

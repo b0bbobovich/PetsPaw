@@ -9,7 +9,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { BrowserModule, HammerModule } from '@angular/platform-browser';
 
 
-//I keep the new line
 @NgModule({
 
   declarations: [
@@ -21,7 +20,7 @@ import { BrowserModule, HammerModule } from '@angular/platform-browser';
     BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
-    SharedModule
+    SharedModule,
   ],
 
   providers: [

@@ -6,4 +6,7 @@ export class Breeds {
     categories!: [Category];
     id!: string;
     url!: string;
+    favourite?: {
+        id: string;
+    }
 }

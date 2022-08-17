@@ -23,6 +23,7 @@ export class VotingComponent implements OnInit {
   public logs: LoggedData[] = [];
 
   public isFavourite: boolean = false;
+  public isBtnReady: boolean = true;
 
   
   constructor(private service: ApiService, private persister: PersistanceService) {
@@ -46,13 +47,13 @@ export class VotingComponent implements OnInit {
   };
 
   public onFavBtnClicked(): void {
-    this.checkFavouriteState()
+    this.checkFavouriteBtnState()
     if (this.isFavourite) {
       this.service.delFavourite(this.favouriteID).subscribe((res) => {
         if (res['message'] == 'SUCCESS') {
           this.loggedAction('removed from', 'Favourites');
           this.isFavourite = false;
-          console.log(this.isFavourite)
+          console.log(this.isFavourite);
         }
       });
     }
@@ -66,9 +67,12 @@ export class VotingComponent implements OnInit {
         }
       });
     };
+    this.isBtnReady = true;
   };
   
-  public checkFavouriteState(): void {
+  // TODO pipes or async await
+  public  checkFavouriteBtnState(): void {
+    this.isBtnReady = false;
     this.service.getFavourites(this.subID).subscribe((res) => {
       let favouritesImgID = res.map((el: Favourite) => el.image_id);
       this.isFavourite = favouritesImgID.includes(this.imageID);

@@ -3,18 +3,18 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../components/shared/shared.module';
 import { BreedsRoutingModule } from './breeds-routing.module';
 import { BreedsComponent } from './breeds.component';
-import { ClickOutsideDirective } from '../../directives/click-outside.directive';
+import { ClickOutsideModule } from '../../directives/click-outside.module';
 
 
 @NgModule({
   declarations: [
-    BreedsComponent,
-    ClickOutsideDirective
+    BreedsComponent
   ],
   imports: [
     CommonModule,
     BreedsRoutingModule,
-    SharedModule
+    SharedModule,
+    ClickOutsideModule
   ]
 })
 export class BreedsModule { }

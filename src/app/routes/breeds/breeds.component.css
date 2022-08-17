@@ -54,7 +54,7 @@
 }
 
 .reload_data {
-    width: 40px;
+    width: auto;
     height: 40px;
     background: #F8F8F7;
     border-radius: 10px;
@@ -79,14 +79,14 @@
 
 .dropdown_breeds_block {
     margin-left: 10px;
-    width: 70%;
+    width: 40%;
     height: 42px;
 }
 
 
 .dropdown_limit_block {
     margin-left: 10px;
-    width: 30%;
+    width: 156px;
     height: 42px;
 }
 
@@ -112,7 +112,6 @@
     height: 100%;
     background: #F8F8F7;
     border-radius: 10px;
-    border: none;
     position: relative;
     display: flex;
     justify-content: space-between;
@@ -124,7 +123,6 @@
 }
 
 .dropdown_breeds {
-    
     max-height: 300px;
     width: max-content;
     display: block;
@@ -196,7 +194,7 @@
 }
 
 .descending_sort {
-    width: 40px;
+    width: auto;
     height: 40px;
     background: #F8F8F7;
     border-radius: 10px;
@@ -219,7 +217,7 @@
 }
 
 .ascending_sort {
-    width: 40px;
+    width: auto;
     height: 40px;
     background: #F8F8F7;
     border-radius: 10px;
@@ -291,7 +289,7 @@
     font-size: 18px;
     line-height: 24px;
     color: #FF868E;
-    margin-top: 5px;
+    margin-top: 2px;
     text-align: center;
 }
 

@@ -26,11 +26,11 @@ export class ApiService {
   }
 
   public searchAllPublic(): Observable<Breeds[]> {
-    return this.http.get<Breeds[]>(`${environment.apiURL}/images/search?limit=20&has_breeds=true&format=json`);
-  }
+    return this.http.get<Breeds[]>(`${environment.apiURL}/images/search?has_breeds=1&limit=20&format=json`);
+  } 
 
   public searchByBreed(breedId: string): Observable<Breeds[]> {
-    return this.http.get<Breeds[]>(`${environment.apiURL}/images/search?limit=20&has_breeds=true&breed_id=${breedId}`);
+    return this.http.get<Breeds[]>(`${environment.apiURL}/images/search?has_breeds=1&limit=20&breed_id=${breedId}`);
   }
 
   public getImageById(image_id: string): Observable<Breeds> {
@@ -42,7 +42,7 @@ export class ApiService {
   }
 
   public searchVotingImage(): Observable<Breeds[]> {
-    return this.http.get<Breeds[]>(`${environment.apiURL}/images/search?limit=1&has_breeds=true&format=json`);
+    return this.http.get<Breeds[]>(`${environment.apiURL}/images/search?limit=1&has_breeds=1&format=json`);
   }
 
   public getFavourites(sub_id: string): Observable<Favourite[]> {
@@ -69,4 +69,11 @@ export class ApiService {
     return this.http.delete(`${environment.apiURL}/votes/${vote_id}`);
   }
   
+  public searchByImgType(mime_types: string = 'jpg,png,gif', sub_id: string): Observable<Breeds[]> {
+    return this.http.get<Breeds[]>(`${environment.apiURL}/images/search?mime_types=${mime_types}&limit=20&include_favourite=1&sub_id=${sub_id}&format=json`);
+  }
+
+  public searchByBreedAndByImgType(breedId: string, mime_types: string = 'jpg,png,gif', sub_id: string): Observable<Breeds[]> {
+    return this.http.get<Breeds[]>(`${environment.apiURL}/images/search?limit=20&mime_types=${mime_types}&breed_id=${breedId}&include_favourite=1&sub_id=${sub_id}`);
+  }
 }
