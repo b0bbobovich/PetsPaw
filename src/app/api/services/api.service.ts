@@ -9,6 +9,8 @@ import { Breeds } from '../models/breeds.model';
 import { Category } from '../models/category.model';
 import { Favourite } from '../models/favourite.model'
 import { Vote } from '../models/vote.model'
+import { ImageAnalysis } from '../models/image-analysis.model';
+import { UploadedImage } from '../models/uploaded-image.model';
 
 
 
@@ -75,5 +77,13 @@ export class ApiService {
 
   public searchByBreedAndByImgType(breedId: string, mime_types: string = 'jpg,png,gif', sub_id: string): Observable<Breeds[]> {
     return this.http.get<Breeds[]>(`${environment.apiURL}/images/search?limit=20&mime_types=${mime_types}&breed_id=${breedId}&include_favourite=1&sub_id=${sub_id}`);
+  }
+
+  public uploadImage(formData: FormData): Observable<any> {
+    return this.http.post(`${environment.apiURL}/images/upload`, formData);
+  }
+
+  public analyseImage(image_id: string) {
+    return this.http.get<ImageAnalysis[]>(`${environment.apiURL}/images/${image_id}/analysis`);
   }
 }

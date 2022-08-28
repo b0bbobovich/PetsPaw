@@ -1,9 +1,11 @@
-import { Component, importProvidersFrom, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { switchMap } from 'rxjs';
 import { Breeds } from '../../api/models/breeds.model';
 import { Category } from '../../api/models/category.model';
+import { ImageAnalysis } from '../../api/models/image-analysis.model';
 import { ApiService } from '../../api/services/api.service';
 import { PersistanceService } from '../../api/services/persister.service';
-import { UploadFileService } from '../../api/services/upload-file.service';
+
 
 @Component({
   selector: 'app-gallery',
@@ -40,11 +42,21 @@ export class GalleryComponent implements OnInit {
 
   public isUploadMenuVisible: boolean = false;
 
-  public fileToUpload!: File;
+  public isReadyToUpload: boolean = false;
+  public isUploading: boolean = false;
+  public isFileUploaded: boolean = false;
+
+  public formData!: FormData;
   public fileURL: string | null | ArrayBuffer = null;
   public fileName: string = '';
 
-  constructor(private service: ApiService, private persister: PersistanceService, private fileUploadService: UploadFileService) { }
+  public isCatFound: boolean = false;
+
+  public logs: {
+    'success': boolean
+  }[] = [];
+
+  constructor(private service: ApiService, private persister: PersistanceService) { }
 
   ngOnInit(): void {
     this.createSubID();
@@ -211,63 +223,152 @@ export class GalleryComponent implements OnInit {
     };
   }
 
-  public favourite_img(imgData: Breeds) {
+  public favouriteImage(imgData: Breeds) {
     this.isBtnReady = false;
     if (imgData.hasOwnProperty('favourite')) {
-      let imgFavID = imgData['favourite']!.id;
-      this.service.delFavourite(imgFavID).subscribe((res) => {
-        if (res['message'] == 'SUCCESS') {
-          let currentImg = this.loadedData.filter((el: Breeds) => (el.id === imgData.id))[0];
-          delete currentImg.favourite;
-          this.isFavourite = false;
-          console.log(`Image ${imgFavID} successfully deleted from favourite`);
-        }
-        else {
-          console.error(`Image ${imgFavID} not deleted from favourite`);
-        };
-      });
-      this.isBtnReady = true;
+      this.removeFromFavourite(imgData);
     }
     else {
-      let imgID = imgData.id;
-      this.service.postFavourite(imgID, this.subID).subscribe((res) => {
-        if (res['message'] === 'SUCCESS') {
-          let favID = res['id'];
-          let currentImg = this.loadedData.filter((el: Breeds) => (el.id === imgData.id))[0];
-          currentImg['favourite'] = { 'id': favID };
-          let currentImgIndex = this.loadedData.indexOf(currentImg);
-          this.loadedData[currentImgIndex] = currentImg;
-          this.isFavourite = true;
-          console.log(`Image ${imgID} successfully posted to favourite`);
+      this.addToFavourite(imgData);
+    };
+    this.isBtnReady = true;
+  }
+
+  private removeFromFavourite(imageData: Breeds): void {
+    let imageID = imageData['favourite']!.id;
+    this.service.delFavourite(imageID).subscribe((res) => {
+      if (res['message'] == 'SUCCESS') {
+        let currentImg = this.loadedData.filter((el: Breeds) => (el.id === imageData.id))[0];
+        delete currentImg.favourite;
+        this.isFavourite = false;
+        console.log(`Image ${imageID} successfully deleted from favourite`);
+      }
+      else {
+        console.error(`Image ${imageID} was not deleted from favourite`);
+      };
+    });
+  };
+
+  private addToFavourite(imageData: Breeds): void {
+    let imageID = imageData.id;
+    this.service.postFavourite(imageID, this.subID).subscribe((res) => {
+      if (res['message'] === 'SUCCESS') {
+        let favID = res['id'];
+        let currentImg = this.loadedData.filter((el: Breeds) => (el.id === imageData.id))[0];
+        currentImg['favourite'] = { 'id': favID };
+        let currentImgIndex = this.loadedData.indexOf(currentImg);
+        this.loadedData[currentImgIndex] = currentImg;
+        this.isFavourite = true;
+        console.log(`Image ${imageID} successfully posted to favourite`);
+      }
+      else {
+        console.error(`Image ${imageID} was not posted to favourite`);
+      };
+    });
+    };
+  
+  public dropHandler(event: any) {
+    let inputFiles: File[] = [];
+    event.preventDefault();
+    if (event.dataTransfer.items) {
+      [...event.dataTransfer.items].forEach((item, i) => {
+        if (item.kind === 'file') {
+          let inputFile: File =  item.getAsFile();
+          inputFiles.push(inputFile);
         }
-        else {
-          console.error(`Image ${imgID} not posted to favourite`);
-        };
       });
-      this.isBtnReady = true;
+    } else {
+      [...event.dataTransfer.files].forEach((file, i) => {
+        inputFiles.push(file);
+      });
+    }
+    this.prepareFileToUpload(inputFiles[0]);
+  }
+
+  public dragOverHandler(event: any) {
+    event.preventDefault();
+  }
+
+
+  public fileInputHandler(event: any) {
+    if (event.target.files && event.target.files.length > 0) {
+      let inputFile: File = event.target.files[0];
+      this.prepareFileToUpload(inputFile);
     };
   }
 
-  public handleFileInput(event: any) {
+  public prepareFileToUpload(file: File) {
+    this.isFileUploaded = false;
+    this.isUploading = false;
+
+    let fileToUpload = file;
     let reader = new FileReader();
-    if(event.target.files && event.target.files.length > 0) {
-      this.fileToUpload = event.target.files[0];
-      reader.readAsDataURL(this.fileToUpload);
-      this.fileName = event.target.files[0].name;
+
+    reader.readAsDataURL(fileToUpload);
+      this.fileName = fileToUpload.name;
       reader.onload = () => {
         this.fileURL = reader.result; 
       };
-    }
-    
+
+    this.formData = new FormData();
+    this.formData.append("file", fileToUpload);
+    this.formData.append("sub_id", this.subID);
+
+    this.isReadyToUpload = true;
   }
 
-  public uploadFileToActivity() {
-    this.fileUploadService.postFile(this.fileToUpload!).subscribe(data => {
-      let response = data;
-      }, error => {
-        console.log(error);
+  public onUploadClicked() {
+    this.isReadyToUpload = false;
+    this.isUploading = true;
+    this.isCatFound = false;
+    
+    let neuralNetData!: ImageAnalysis['labels'];
+    
+    this.service.uploadImage(this.formData).pipe(
+      switchMap((res) => this.service.analyseImage(res.id))
+    ).subscribe((res) => (
+      neuralNetData = res[0].labels,
+      this.isUploading = false,
+      this.isFileUploaded = true,
+      this.analyseData(neuralNetData)
+    ),
+      error => {
+            this.isCatFound = false,
+            this.isUploading = false,
+            this.isFileUploaded = true,
+            this.loggedAction(false)
       });
   }
+
+  public analyseData(neuralNetData: ImageAnalysis['labels']) {
+    let catConfidence: number = 0;
+    let dogConfidence: number = 0;
+
+    neuralNetData.map((label) => {
+        if (label.Name === 'Cat') {
+          catConfidence = label.Confidence;
+        }
+        else if (label.Name === 'Dog') {
+          dogConfidence = label.Confidence;
+        }
+    });
+    
+    if (catConfidence > dogConfidence) {
+      this.isCatFound = true;
+    }
+    else if (catConfidence <= dogConfidence) {
+      this.isCatFound = false;
+    };
+    this.loggedAction(this.isCatFound);
+  }
+
+  public loggedAction(result: boolean): void {   
+    let newLog = {
+      'success': result
+    }
+    console.log(`New Log: ${newLog.success}`)
+    this.logs.push(newLog)
+  }; 
 
   // toDo move get_grid_class to grid-container component and then import where it needed to
   public get_grid_class(index: number): string {
@@ -280,6 +381,4 @@ export class GalleryComponent implements OnInit {
     let clamped_index = index % pattern.length;
     return pattern[clamped_index];
   }
-
 }
-

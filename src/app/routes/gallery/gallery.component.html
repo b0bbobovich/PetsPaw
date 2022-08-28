@@ -93,12 +93,12 @@
                     <div class="cat_img_cont {{ get_grid_class(i) }}">
                         <div class="hover_cont" (mouseenter)="on_hover_enter(data)">
                             <div class="cat_img_hover"></div>
-                            <div class="unfav_btn_cont" (click)="isBtnReady && favourite_img(data)">
+                            <div class="unfav_btn_cont" (click)="isBtnReady && favouriteImage(data)">
                                 <ng-container *ngIf="isFavourite;  else not_favourite_img">
-                                    <img class="unfav_btn"  src='./assets/icons/fav-color-30.svg' alt="search_image">
+                                    <img class="unfav_btn"  src='./assets/icons/fav-color-30.svg' alt="fav_image">
                                 </ng-container>
                                 <ng-template #not_favourite_img>
-                                    <img class="unfav_btn"  src='./assets/icons/fav-30.svg' alt="search_image">
+                                    <img class="unfav_btn"  src='./assets/icons/fav-30.svg' alt="unfav_image">
                                 </ng-template>
                             </div>
                         </div>
@@ -131,8 +131,9 @@
         <h3 class="additional_header">Any uploads must comply with the 
             <a class="guidelines_link" href="https://thecatapi.com/privacy">upload guidelines</a> 
             or face deletion.</h3>
+        
         <div class="img_cont">
-            <div class="no_image_selected" *ngIf="!fileURL; else selected_image">
+            <div id="drop_area" (drop)="dropHandler($event);" (dragover)='dragOverHandler($event)' *ngIf="!isFileUploaded && !fileURL; else second_variant">
                 <div class="relative_cont">
                     <div class="form-group">
                         <h3 class="upload_image_header">
@@ -140,22 +141,79 @@
                             your file or 
                             <label class="upload_link" for="file">Click here</label>
                             to upload</h3>
-                            <input type="file" id="file" (change)="handleFileInput($event)" style="display: none;">
+                            <input type="file" id="file" (change)="fileInputHandler($event)" style="display: none;">
                     </div>
                     <img class="upload_img_logo"  src='./assets/images/upload-img.png' alt="upload_img_logo">
                 </div>
-                <h4 class="no_file_header">No file selected</h4>
+                <h4 class="file_name_header">No file selected</h4>
             </div>
-            <ng-template #selected_image>
-                <img class="uploaded_image" src={{fileURL}} alt="uploading_image">
-                <h4 class="no_file_header">Image File Name: {{fileName}}</h4>
-                <div class="upload_btn_cont">
-                    <label class="upload_btn_label">UPLOAD PHOTO</label>
+
+            <ng-template #second_variant>
+                <div id="drop_area" (drop)="dropHandler($event);" (dragover)='dragOverHandler($event)' *ngIf="!isFileUploaded && fileURL; else third_variant">
+                    <button (click)="fileInput.click()" class="img_upload_btn">
+                        <img class="uploaded_image" src={{fileURL}} alt="uploading_image">
+                    </button>
+                    <input type="file" id="file" (change)="fileInputHandler($event)" style="display: none;" #fileInput>
+                    <h4 class="file_name_header">Image File Name: {{fileName}}</h4>
+                    <ng-container *ngIf="!isUploading; else uploadingImage">
+                        <ng-container > 
+                            <div class="upload_btn_cont" *ngIf="isReadyToUpload" (click)="onUploadClicked()">
+                                <label class="upload_btn_label">UPLOAD PHOTO</label>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                    <ng-template #uploadingImage>
+                        <div class="uploading_btn_cont">
+                            <div class="progress_spinner_btn">
+                                <app-progress-spinner></app-progress-spinner>
+                            </div>
+                            <label class="uploading_btn_label">UPLOADING</label>
+                        </div>
+                    </ng-template>
                 </div>
+
+                <ng-template #third_variant>
+                    <div id="drop_area" (drop)="dropHandler($event);" (dragover)='dragOverHandler($event)' *ngIf="isFileUploaded && isCatFound; else fourth_variant">
+                        <div class="relative_cont">
+                            <div class="form-group">
+                                <h3 class="upload_image_header">
+                                    <label class="upload_link" for="file">Drag here</label>
+                                    your file or 
+                                    <label class="upload_link" for="file">Click here</label>
+                                    to upload</h3>
+                                    <input type="file" id="file" (change)="fileInputHandler($event)" style="display: none;">
+                            </div>
+                            <img class="upload_img_logo"  src='./assets/images/upload-img.png' alt="upload_img_logo">
+                        </div>
+                        <h4 class="file_name_header">No file selected</h4>
+                    </div>
+
+                    <ng-template #fourth_variant>
+                        <div id="drop_area" (drop)="dropHandler($event);" (dragover)='dragOverHandler($event)' *ngIf="isFileUploaded && !isCatFound">
+                            <button (click)="fileInput.click()" class="img_upload_btn unsuccess_upload">
+                                <img class="uploaded_image" src={{fileURL}} alt="uploading_image">
+                            </button>
+                            <input type="file" id="file" (change)="fileInputHandler($event)" style="display: none;" #fileInput>
+                            <h4 class="file_name_header">Image File Name: {{fileName}}</h4>
+                        </div>
+                    </ng-template>
+                </ng-template>
             </ng-template>
         </div>
-
         
-        
+        <div class="logs" *ngIf="!isReadyToUpload && !isUploading">
+            <ng-container *ngFor='let log of logs.reverse()'>
+                <div class="new_log" *ngIf="log.success; else unsuccess">
+                    <img class="log_img"  src='./assets/icons/cat-found-20.svg' alt="success_img">
+                    <p class="log_msg">Thanks for the Upload - Cat found!</p>
+                </div>
+                <ng-template #unsuccess>
+                    <div class="new_log">
+                        <img class="log_img"  src='./assets/icons/no-cat-found-20.svg' alt="unsuccess_img">
+                        <p class="log_msg">No Cat found - try a different one</p>
+                    </div>
+                </ng-template>
+            </ng-container> 
+        </div>
     </div>
 </ng-template>
