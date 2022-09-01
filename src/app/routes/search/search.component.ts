@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Breeds } from '../../api/models/breeds.model';
-import { ApiService } from '../../api/services/api.service';
+import { ApiService } from '../../api/api-services/api.service';
 
 
 @Component({

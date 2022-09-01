@@ -48,7 +48,7 @@ export class ApiService {
   }
 
   public getFavourites(sub_id: string): Observable<Favourite[]> {
-    return this.http.get<Favourite[]>(`${environment.apiURL}/favourites?limit=20&sub_id=${sub_id}`);
+    return this.http.get<Favourite[]>(`${environment.apiURL}/favourites?limit=100&sub_id=${sub_id}`);
   }
 
   public postFavourite(image_id: string, sub_id: string): Observable<any> {

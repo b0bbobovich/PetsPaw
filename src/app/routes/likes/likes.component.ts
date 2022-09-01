@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Vote } from '../../api/models/vote.model';
-import { ApiService } from '../../api/services/api.service';
-import { PersistanceService } from '../../api/services/persister.service';
+import { ApiService } from '../../api/api-services/api.service';
+import { PersistanceService } from '../../services/persister.service';
 import { LoggedData } from '../voting/voting.interface';
 
 @Component({

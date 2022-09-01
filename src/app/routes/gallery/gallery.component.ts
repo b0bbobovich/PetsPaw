@@ -3,8 +3,8 @@ import { switchMap } from 'rxjs';
 import { Breeds } from '../../api/models/breeds.model';
 import { Category } from '../../api/models/category.model';
 import { ImageAnalysis } from '../../api/models/image-analysis.model';
-import { ApiService } from '../../api/services/api.service';
-import { PersistanceService } from '../../api/services/persister.service';
+import { ApiService } from '../../api/api-services/api.service';
+import { PersistanceService } from '../../services/persister.service';
 
 
 @Component({

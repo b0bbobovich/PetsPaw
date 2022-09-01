@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Breed } from '../models/breed.model';
-import { Breeds } from '../models/breeds.model';
+import { Breeds } from '../api/models/breeds.model';
 
 
 @Injectable({

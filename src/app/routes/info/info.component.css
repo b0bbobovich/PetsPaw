@@ -62,110 +62,6 @@
     height: 460px;
 }
 
-:host ::ng-deep .igx-carousel {
-    height: 100%;
-    width: 100%;
-    position: relative;
-}
-
-:host ::ng-deep .igx-carousel__inner {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    overflow: hidden;
-}
-
-:host ::ng-deep .igx-slide {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: none;
-    
-}
-
-:host ::ng-deep .igx-slide--current {
-    display: block;
-
-}
-
-:host ::ng-deep .image-container {
-    width: 100%;
-    height: 100%;
-}
-
-:host ::ng-deep .igx-carousel-indicators--bottom {
-    position: absolute;
-    justify-content: space-around;
-    width: 90px;
-    height: 30px;
-    background: #FFFFFF;
-    border-radius: 20px;
-    transform: rotate(0.09deg);
-    bottom: -30px;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
-:host ::ng-deep .igx-carousel-indicators__indicator {
-    margin: 0;
-}
-
-:host ::ng-deep .igx-nav-dot {
-    background: #FBE0DC;
-    box-shadow: none;
-    width: 10px;
-    height: 10px;
-    border-radius: 10px;
-    box-sizing: content-box;
-}
-
-:host ::ng-deep .igx-nav-dot--active {
-    background: #FF868E;
-}
-
-:host ::ng-deep .igx-nav-dot--active::after {
-    background: #FF868E;
-}
-
-
-:host ::ng-deep .igx-nav-arrow {
-    display: flex;
-    width: 35px;
-    height: 35px;
-    background: white;
-    border-radius: 10px;
-}
-
-:host ::ng-deep .igx-carousel__arrow--prev {
-    margin: 0;
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-:host ::ng-deep .igx-carousel__arrow--prev:hover .igx-nav-arrow {
-    background: #FBE0DC;
-}
-
-:host ::ng-deep .igx-carousel__arrow--next {
-    margin: 0;
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-:host ::ng-deep .igx-carousel__arrow--next:hover .igx-nav-arrow {
-    background: #FBE0DC;
-}
-
-
 .info_cont {
     box-sizing: border-box;
     width: 100%;
@@ -263,3 +159,4 @@
     padding-left: 20px;
     margin-bottom: 0;
 }
+

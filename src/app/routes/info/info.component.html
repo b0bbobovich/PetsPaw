@@ -13,11 +13,9 @@
 
     <div class="breed_content" *ngIf="breedImgsURLs.length > 0;  else noData">
         <div class="info_img_cont">
-            <!-- <igx-carousel #carousel>
-                <igx-slide  *ngFor="let slideURL of breedImgsURLs;">
-                    <app-cat-breed [url]="slideURL"></app-cat-breed>
-                 </igx-slide>
-            </igx-carousel> -->
+            <carousel class="carousel" cellWidth='100%' [height]=460 [borderRadius]=20
+                [images]="breedImgsURLs">
+            </carousel>
         </div>
 
         <div class="info_cont">

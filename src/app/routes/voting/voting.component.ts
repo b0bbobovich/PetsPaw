@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Breeds } from '../../api/models/breeds.model';
 import { Favourite } from '../../api/models/favourite.model';
-import { ApiService } from '../../api/services/api.service';
-import { PersistanceService } from '../../api/services/persister.service';
+import { ApiService } from '../../api/api-services/api.service';
+import { PersistanceService } from '../../services/persister.service';
 import { LoggedData } from './voting.interface';
+import { Observable, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-voting',
@@ -22,7 +23,7 @@ export class VotingComponent implements OnInit {
 
   public logs: LoggedData[] = [];
 
-  public isFavourite: boolean = false;
+  public isFavourite!: boolean;
   public isBtnReady: boolean = true;
 
   
@@ -40,44 +41,71 @@ export class VotingComponent implements OnInit {
   };
 
   public searchImage(): void {
-    this.service.searchVotingImage().subscribe((catData) => {
-      this.loadedData = catData;
-      this.imageID = this.loadedData[0].id;
-    });
+    this.service.searchVotingImage().pipe(
+      switchMap(catData => {
+        this.loadedData = catData;
+        this.imageID = this.loadedData[0].id;
+        return this.getFavouriteData()
+      }
+      )).subscribe(favouritesData => {
+        this.checkIfFavourite(favouritesData);
+      });
   };
 
-  public onFavBtnClicked(): void {
-    this.checkFavouriteBtnState()
-    if (this.isFavourite) {
-      this.service.delFavourite(this.favouriteID).subscribe((res) => {
-        if (res['message'] == 'SUCCESS') {
-          this.loggedAction('removed from', 'Favourites');
-          this.isFavourite = false;
-          console.log(this.isFavourite);
-        }
-      });
-    }
-    else {
-      this.service.postFavourite(this.imageID, this.subID).subscribe((res) => {
-        if (res['message'] === 'SUCCESS') {
-          this.loggedAction('added to', 'Favourites');
-          this.favouriteID = res["id"];
-          this.isFavourite = true;
-          console.log(this.isFavourite)
-        }
-      });
-    };
-    this.isBtnReady = true;
-  };
+  public getFavouriteData(): Observable<any> {
+    return this.service.getFavourites(this.subID)
+  }
+
+  public checkIfFavourite(favouritesData: Favourite[]): void {
+    let favouritesImgID = favouritesData.map((el: Favourite) => el.image_id);
+    this.isFavourite = favouritesImgID.includes(this.imageID);
+  }
+
+  public deleteFavourite(): Observable<any> {
+    return this.service.delFavourite(this.favouriteID);
+  }
+
+  public postFavourite(): Observable<any> {
+    return this.service.postFavourite(this.imageID, this.subID);
+  }
   
-  // TODO pipes or async await
-  public  checkFavouriteBtnState(): void {
+  public onFavBtnClicked(): void {
     this.isBtnReady = false;
-    this.service.getFavourites(this.subID).subscribe((res) => {
-      let favouritesImgID = res.map((el: Favourite) => el.image_id);
-      this.isFavourite = favouritesImgID.includes(this.imageID);
-    });
-  };
+    let requestType!: string;
+    this.getFavouriteData().pipe(
+      switchMap(favouritesData => {
+        this.checkIfFavourite(favouritesData);
+        if (this.isFavourite) {
+          requestType = 'DELETE';
+          return this.deleteFavourite();
+        }
+        else {
+          requestType = 'POST';
+          return this.postFavourite();
+        };
+      }
+      )).subscribe((response) => {
+        if (response['message'] == 'SUCCESS') {
+          if (requestType === 'DELETE') {
+            this.isFavourite = false;
+            this.loggedAction('removed from', 'Favourites');
+          }
+          else {
+            this.isFavourite = true;
+            this.favouriteID = response["id"];
+            this.loggedAction('added to', 'Favourites');
+          }
+          this.isBtnReady = true;
+        }
+        
+      },
+        (error: any) => {
+          console.error(error);
+          this.isBtnReady = true;
+        }
+      );
+   };
+  
 
   public onVoteBtnClicked(value: number) {
     this.service.postVote(this.imageID, this.subID, value).subscribe((res) => {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ElementRef, ViewChild } from '@angular/core';
-import { ApiService } from '../../api/services/api.service';
-import { ShareRouteDataService } from '../../api/services/share-route-data.service';
+import { ApiService } from '../../api/api-services/api.service';
+import { ShareRouteDataService } from '../../services/share-route-data.service';
 import { Breeds } from '../../api/models/breeds.model';
 import { Category } from '../../api/models/category.model';
 
@@ -51,7 +51,11 @@ export class BreedsComponent implements OnInit {
       });
     }
     else {
-      let category = this.categories.filter((el: Category) => (el.name == this.currentCategory));
+      let category = this.categories.filter((el: Category) => {
+        if (el) {
+          el.name == this.currentCategory;
+        }
+      });
       let breedID = category[0].id;
       this.service.searchByBreed(breedID).subscribe((breed_data) => {
         this.loadedData = breed_data;

@@ -4,7 +4,7 @@ import { SharedModule } from '../../components/shared/shared.module';
 
 import { InfoRoutingModule } from './info-routing.module';
 import { InfoComponent } from './info.component';
-
+import { IvyCarouselModule } from 'angular-responsive-carousel';
 
 
 
@@ -16,6 +16,7 @@ import { InfoComponent } from './info.component';
     CommonModule,
     InfoRoutingModule,
     SharedModule,
+    IvyCarouselModule
     
   ],
 })

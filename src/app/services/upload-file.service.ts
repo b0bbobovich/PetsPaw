@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../../environments/environment';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,11 +15,6 @@ export class UploadFileService {
     const formData: FormData = new FormData();
     formData.append('fileKey', fileToUpload, fileToUpload.name);
     return this.http
-      .post(endpoint, formData)  // { headers: myHeadersConfig }
+      .post(endpoint, formData);
   }
-  
-  // handleError(e: any) {
-  //   throw new Error('Method not implemented.');
-  // }
-  
 }

@@ -1,5 +1,5 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ApiInterceptor } from './api/services/api-interceptor.service';
+import { ApiInterceptor } from './api/api-services/api-interceptor.service';
 
 import { AppComponent } from './app.component';
 import { NgModule } from '@angular/core';
@@ -13,6 +13,7 @@ import { BrowserModule, HammerModule } from '@angular/platform-browser';
 
   declarations: [
     AppComponent,
+    
   ],
   imports: [
     HammerModule,

@@ -11,6 +11,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
 
 
+
 @NgModule({
   declarations: [
     TopbarComponent,
@@ -33,6 +34,7 @@ import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.co
     FormsModule,
     RouterModule,
     MatProgressSpinnerModule
+    
   ]
 })
 export class SharedModule { }
