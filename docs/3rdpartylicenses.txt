@@ -66,6 +66,9 @@ MIT
 @angular/router
 MIT
 
+angular-responsive-carousel
+Apache License 2.0
+
 minireset.css
 MIT
 The MIT License (MIT)

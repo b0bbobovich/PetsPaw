@@ -35,7 +35,6 @@ export class InfoComponent implements OnInit {
 
       this.breedImgsURLs.push({ 'path': this.shareDataService.data[0].url });
       this.searchBreedImgs(this.breedID);
-      console.log(this.breedImgsURLs)
       
       this.breedInfo = this.shareDataService.data[0]['breeds'][0];
 
@@ -50,9 +49,7 @@ export class InfoComponent implements OnInit {
         if (breeds[i]) {
           this.breedImgsURLs.push({ 'path': breeds[i].url });
         };
-        
       };
-      console.log(this.breedImgsURLs)
     });
     
   }
