@@ -23,6 +23,8 @@ export class BreedsComponent implements OnInit {
 
   public currentCategory: string = 'All breeds'
 
+  public currentBreedID!: string;
+
   public imgsLimit: number = 20;
 
   public isLimitDropdownOpen: boolean = false;
@@ -46,41 +48,42 @@ export class BreedsComponent implements OnInit {
     }
     if (this.currentCategory == 'All breeds') {
       this.service.searchAllPublic().subscribe((catsData) => {
-        this.loadedData = catsData.filter((el: Breeds) => typeof(el) !== 'undefined');
+        this.loadedData = catsData.filter((catData: Breeds) => typeof(catData) !== 'undefined');
         this.showData();
       });
     }
     else {
-      let category = this.categories.filter((el: Category) => {
-        if (el) {
-          el.name == this.currentCategory;
+      this.service.searchByBreed(this.currentBreedID).subscribe((breedData) => {
+        if (typeof (breedData) !== 'undefined') {
+          this.loadedData = breedData;
+          this.showData();
         }
-      });
-      let breedID = category[0].id;
-      this.service.searchByBreed(breedID).subscribe((breed_data) => {
-        this.loadedData = breed_data;
-        this.showData();
       });
     }
   }
 
   public showData(): void {
-    console.log(this.loadedData)
     this.showedData = this.loadedData.slice(0, this.imgsLimit);
   }
 
   public searchCategories(): void {
     this.service.searchCategories().subscribe((categoriesData) => {
-      this.categories = categoriesData;
+      if (typeof (categoriesData) !== 'undefined') {
+        this.categories = categoriesData;
+      }
+      else {
+        console.error('Categories data is Empty');
+      }
     });
   }
 
   public chooseCategory(category: Category | string): void {
-    if (typeof category == 'string') {
+    if (typeof category === 'string') {
       this.currentCategory = 'All breeds';
     }
     else {
       this.currentCategory = category.name;
+      this.currentBreedID = category.id;
     }
     this.openCloseDropbars('categoriesDropbar')
     this.searchData();

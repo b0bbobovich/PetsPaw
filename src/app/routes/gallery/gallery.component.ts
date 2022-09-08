@@ -105,7 +105,6 @@ export class GalleryComponent implements OnInit {
     else {
       this.isEmptyData = false;
     };
-    console.log(this.showedData);
   }
 
   public searchCategories(): void {
@@ -155,14 +154,22 @@ export class GalleryComponent implements OnInit {
   public changeOrder(newOrder: string): void {
     this.currentOrder = newOrder;
     if (newOrder == 'Desc') {
+      let dataWithNoBreeds = this.loadedData.filter(breedData => breedData.breeds.length < 1);
       this.showedData = this.loadedData
+      .filter(breedData => breedData.breeds.length > 0)
       .slice(0, this.currentLimit)
-      .sort((a, b) => (a.breeds[0].name > b.breeds[0].name ? -1 : 1));
+      .sort((a, b) => (a.breeds[0].name > b.breeds[0].name ? -1 : 1))
+      .concat(dataWithNoBreeds);
+      
+      
     }
     else if (newOrder == 'Asc') {
+      let dataWithNoBreeds = this.loadedData.filter(breedData => breedData.breeds.length < 1);
       this.showedData = this.loadedData
+      .filter(breedData => breedData.breeds.length > 0)
       .slice(0, this.currentLimit)
-      .sort((a, b) => (a.breeds[0].name < b.breeds[0].name ? -1 : 1));
+      .sort((a, b) => (a.breeds[0].name < b.breeds[0].name ? -1 : 1))
+      .concat(dataWithNoBreeds);
     }
     else {
       this.showedData = shuffle(this.loadedData)

@@ -51,7 +51,6 @@ export class SearchComponent implements OnInit {
         this.isEmptyData = true;
       }
     });
-    console.log(this.loadedData);
   }
 
 

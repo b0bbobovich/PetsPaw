@@ -29,7 +29,6 @@ export class DislikesComponent implements OnInit {
 
   public getDislikedImgs(): void {
     this.service.getVotes(this.subID).subscribe((res) => {
-      console.log(res)
       this.loadedData = res.filter((el: Vote) => el.value === 0);
     });
   };

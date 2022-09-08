@@ -29,7 +29,6 @@ export class LikesComponent implements OnInit {
 
   public getLikedImgs(): void {
     this.service.getVotes(this.subID).subscribe((res) => {
-      console.log(res)
       this.loadedData = res.filter((el: Vote) => el.value === 1);
     });
   };

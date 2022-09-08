@@ -39,7 +39,7 @@
     </ng-template>
 
     <div class="logs">
-        <ng-container *ngFor='let log of logs'>
+        <ng-container *ngFor='let log of logs.reverse()'>
             <div class="new_log">
                 <div class="time_cont">
                     <p class="time">{{log.currentTime}}</p>

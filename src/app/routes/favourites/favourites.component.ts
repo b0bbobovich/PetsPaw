@@ -33,7 +33,7 @@ export class FavouritesComponent implements OnInit {
   };
 
   public unfavouriteImage(imageData: Favourite): void {
-    this.imageID = imageData.image_id
+    this.imageID = imageData.image_id;
     let favourite_id = imageData.id;
     this.service.delFavourite(favourite_id).subscribe((res) => {
       if (res['message'] == 'SUCCESS') {

@@ -6,7 +6,7 @@
           <p class="page_name">FAVOURITES</p>
         </div>
     </div>
-    <ng-container *ngIf="loadedData.length > 0;  else noItems">
+    <ng-container *ngIf="loadedData.length > 0;  else noItemsFound">
         <div class="grid_parent">
           <div class="grid_container">
             <ng-container *ngFor="let data of loadedData; index as i">
@@ -24,7 +24,8 @@
           </div>
         </div>
     </ng-container>
-    <ng-template #noItems>
+
+    <ng-template #noItemsFound>
         <div class="no_items_headline">
             <p class="no_items_headline_text">No item found</p>
         </div>
