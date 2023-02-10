@@ -28,7 +28,4 @@ PetsPaw app is a test task built for MacPaw Internship 2022. This aplication was
 
 ![Alt text](docs/readme_images/1.jpg?raw=true)
 
-## Personal opinion
-
-Very awesome task. There are a lot of interesting features in this project. Perfect for practice your skills. Beautiful design and concept, especially for cat lover like me. I had never used JS before this project. It helped me to understand more about working with APIs and front-end at all. Now I am in love with TypeScript.) And of course, I'd like to thank MacPaw team for such an awesome test task.
 
